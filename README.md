@@ -12,6 +12,7 @@ Go debugging for Vim.
   * Vim
   * [vim-go](https://github.com/fatih/vim-go)
   * [Delve](https://github.com/derekparker/delve)
+   * On macOS, it is advised to install through [brew](https://github.com/derekparker/delve/blob/master/Documentation/installation/osx/install.md#via-homebrew), due to problems with certificates.
 
 ## Installation
 
@@ -28,6 +29,16 @@ This is a tool that is useful for **my workflow**.
 If you think it's useful, be my guest and use it too.
 
 I won't actively support this plugin. If you find a bug, or want an improvement, please open a PR if you want to see it fixed.
+
+## Troubleshooting
+
+### Error detected while processing function godebug#debug
+
+**vim** is not yet supported. Try it with **neovim**.
+
+### vim-go: go: unknown subcommand "debug"
+
+Try adding `let g:go_term_enabled=1` in your nvim config file.
 
 ## Copyright
 
