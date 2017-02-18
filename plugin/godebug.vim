@@ -2,6 +2,11 @@
 " Maintainer:    Luca Guidi <https://lucaguidi.com>
 " Version:       0.1
 
+if !has("nvim")
+  echom "vim-godebug: vim is not yet supported, try it with neovim"
+  finish
+endif
+
 if exists("g:godebug_loaded_install")
   finish
 endif
@@ -53,26 +58,13 @@ function! godebug#debug(bang, ...) abort
   call godebug#writeBreakpointsFile()
   let args = ["debug", "--init=" . g:godebug_breakpoints_file]
 
-  " FIXME: this doesn't works for Vim 8
-  " if go#util#has_job()
-  "   " use vim's job functionality to call it asynchronously
-  "   let job_args = {
-  "         \ 'cmd': ['dlv'] + args,
-  "         \ 'bang': a:bang,
-  "         \ }
+  if get(g:, 'go_term_enabled', 0)
+    let id = go#term#new(a:bang, ["dlv"] + args)
+  else
+    let id = go#jobcontrol#Spawn(a:bang, "dlv", args)
+  endif
 
-  "   call s:cmd_job(job_args)
-  "   return
-  " elseif has('nvim')
-    " use nvims's job functionality
-    if get(g:, 'go_term_enabled', 0)
-      let id = go#term#new(a:bang, ["dlv"] + args)
-    else
-      let id = go#jobcontrol#Spawn(a:bang, "dlv", args)
-    endif
-
-    return id
-  " endif
+  return id
 endfunction
 " }}}1
 
