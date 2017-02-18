@@ -56,15 +56,7 @@ endfunction
 
 function! godebug#debug(bang, ...) abort
   call godebug#writeBreakpointsFile()
-  let args = ["debug", "--init=" . g:godebug_breakpoints_file]
-
-  if get(g:, 'go_term_enabled', 0)
-    let id = go#term#new(a:bang, ["dlv"] + args)
-  else
-    let id = go#jobcontrol#Spawn(a:bang, "dlv", args)
-  endif
-
-  return id
+  return go#term#new(a:bang, ["dlv", "debug", "--init=" . g:godebug_breakpoints_file])
 endfunction
 
 command! -nargs=* -bang GoToggleBreakpoint call godebug#toggleBreakpoint(expand('%:p'), line('.'), <f-args>)
