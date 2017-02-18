@@ -66,16 +66,6 @@ function! godebug#debug(bang, ...) abort
 
   return id
 endfunction
-" }}}1
 
-" " Public functions {{{1
-" function! GoToggleBreakpoint()
-"   call godebug#toggleBreakpoint(expand('%:p'), line('.'))
-" endfunction
-
-" function! GoDebug()
-"   call godebug#debug()
-" endfunction
-" " }}}1
 command! -nargs=* -bang GoToggleBreakpoint call godebug#toggleBreakpoint(expand('%:p'), line('.'), <f-args>)
 command! -nargs=* -bang GoDebug call godebug#debug(<bang>0, 0, <f-args>)
