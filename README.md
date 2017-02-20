@@ -36,10 +36,6 @@ I won't actively support this plugin. If you find a bug, or want an improvement,
 
 **vim** is not yet supported. Try it with **neovim**.
 
-### vim-go: go: unknown subcommand "debug"
-
-Try adding `let g:go_term_enabled=1` in your nvim config file.
-
 ## Copyright
 
 2017 - Luca Guidi - https://lucaguidi.com

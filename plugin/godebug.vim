@@ -2,6 +2,11 @@
 " Maintainer:    Luca Guidi <https://lucaguidi.com>
 " Version:       0.1
 
+if !has("nvim")
+  echom "vim-godebug: vim is not yet supported, try it with neovim"
+  finish
+endif
+
 if exists("g:godebug_loaded_install")
   finish
 endif
@@ -12,9 +17,17 @@ if !exists("g:godebug_breakpoints")
   let g:godebug_breakpoints = []
 endif
 
-if !exists("g:godebug_breakpoints_file")
-  let g:godebug_breakpoints_file = '.gobreakpoints'
+" make cache base path overridable
+if !exists("g:godebug_cache_path")
+  " this will probably suck for people using windows ...
+  let g:godebug_cache_path = $HOME . "/.cache/" . v:progname . "/vim-godebug"
 endif
+
+" make sure cache base path exists
+call mkdir(g:godebug_cache_path, "p")
+
+" create a reasonably unique breakpoints file path per vim instance
+let g:godebug_breakpoints_file = g:godebug_cache_path . "/". getpid() . localtime()
 
 autocmd VimLeave * call godebug#deleteBreakpointsFile()<cr>
 
@@ -51,39 +64,8 @@ endfunction
 
 function! godebug#debug(bang, ...) abort
   call godebug#writeBreakpointsFile()
-  let args = ["debug", "--init=" . g:godebug_breakpoints_file]
-
-  " FIXME: this doesn't works for Vim 8
-  " if go#util#has_job()
-  "   " use vim's job functionality to call it asynchronously
-  "   let job_args = {
-  "         \ 'cmd': ['dlv'] + args,
-  "         \ 'bang': a:bang,
-  "         \ }
-
-  "   call s:cmd_job(job_args)
-  "   return
-  " elseif has('nvim')
-    " use nvims's job functionality
-    if get(g:, 'go_term_enabled', 0)
-      let id = go#term#new(a:bang, ["dlv"] + args)
-    else
-      let id = go#jobcontrol#Spawn(a:bang, "dlv", args)
-    endif
-
-    return id
-  " endif
+  return go#term#new(a:bang, ["dlv", "debug", "--init=" . g:godebug_breakpoints_file])
 endfunction
-" }}}1
 
-" " Public functions {{{1
-" function! GoToggleBreakpoint()
-"   call godebug#toggleBreakpoint(expand('%:p'), line('.'))
-" endfunction
-
-" function! GoDebug()
-"   call godebug#debug()
-" endfunction
-" " }}}1
 command! -nargs=* -bang GoToggleBreakpoint call godebug#toggleBreakpoint(expand('%:p'), line('.'), <f-args>)
 command! -nargs=* -bang GoDebug call godebug#debug(<bang>0, 0, <f-args>)
