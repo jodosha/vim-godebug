@@ -9,7 +9,7 @@ Go debugging for Vim.
 ## Prerequisites
 
   * Go
-  * Vim
+  * [Neovim](https://neovim.io/)
   * [vim-go](https://github.com/fatih/vim-go)
   * [Delve](https://github.com/derekparker/delve)
    * On macOS, it is advised to install through [brew](https://github.com/derekparker/delve/blob/master/Documentation/installation/osx/install.md#via-homebrew), due to problems with certificates.
