@@ -67,5 +67,11 @@ function! godebug#debug(bang, ...) abort
   return go#term#new(a:bang, ["dlv", "debug", "--init=" . g:godebug_breakpoints_file])
 endfunction
 
+function! godebug#test(bang, ...) abort
+  call godebug#writeBreakpointsFile()
+  return go#term#new(a:bang, ["dlv", "test", "--init=" . g:godebug_breakpoints_file])
+endfunction
+
 command! -nargs=* -bang GoToggleBreakpoint call godebug#toggleBreakpoint(expand('%:p'), line('.'), <f-args>)
 command! -nargs=* -bang GoDebug call godebug#debug(<bang>0, 0, <f-args>)
+command! -nargs=* -bang GoDebugTest call godebug#test(<bang>0, 0, <f-args>)
