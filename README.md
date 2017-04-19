@@ -22,6 +22,7 @@ Copy all files to your ~/.vim directory or use Tim Pope's excellent pathogen plu
 
 `:call GoToggleBreakpoint()` to add or remove a breakpoint at the current line
 `:call GoDebug()` to start a debug session for the main package
+`:call GoDebugTest()` to start a debug session for test cases
 
 ## Development and Improvements
 

@@ -29,7 +29,7 @@ call mkdir(g:godebug_cache_path, "p")
 " create a reasonably unique breakpoints file path per vim instance
 let g:godebug_breakpoints_file = g:godebug_cache_path . "/". getpid() . localtime()
 
-autocmd VimLeave * call godebug#deleteBreakpointsFile()<cr>
+autocmd VimLeave * call godebug#deleteBreakpointsFile()
 
 " Private functions {{{1
 function! godebug#toggleBreakpoint(file, line, ...) abort
@@ -67,5 +67,11 @@ function! godebug#debug(bang, ...) abort
   return go#term#new(a:bang, ["dlv", "debug", "--init=" . g:godebug_breakpoints_file])
 endfunction
 
+function! godebug#test(bang, ...) abort
+  call godebug#writeBreakpointsFile()
+  return go#term#new(a:bang, ["dlv", "test", "--init=" . g:godebug_breakpoints_file])
+endfunction
+
 command! -nargs=* -bang GoToggleBreakpoint call godebug#toggleBreakpoint(expand('%:p'), line('.'), <f-args>)
 command! -nargs=* -bang GoDebug call godebug#debug(<bang>0, 0, <f-args>)
+command! -nargs=* -bang GoDebugTest call godebug#test(<bang>0, 0, <f-args>)
