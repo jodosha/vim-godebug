@@ -1,0 +1,34 @@
+*godebug.txt*              A Vim plugin which shows a git diff in the gutter.
+
+Author:  Luca Guidi <https://lucaguidi.com>
+Repo:    https://github.com/jodosha/vim-godebug
+License: MIT License (See LICENSE file)
+
+INTRODUCTION                                    *godebug*
+
+Allows calling Delve, a debugger for the go language, directly from neovim.
+Vim is not yet supported.
+
+For installation instructions on Delve, see the gitub page here:
+https://github.com/derekparker/delve
+
+COMMANDS                                        *godebug-commands*
+
+All commands start a new internal terminal window using the |:term| command.
+If you have never used |:term| before, you'll find it's windows are controlled
+differently than normal windows. You might want to read up on the differences,
+but for quick reference: exiting is just like any normal terminal with 'exit',
+and for switch windows |CTRL-\_CTRL-N| is probably what you need.
+
+                                                *godebug-:GoToggleBreakpoint*
+:GoToggleBreakpoint     Sets or removes a breakpoint at the current active
+                        line.
+
+                                                *godebug-:GoDebug*
+:GoDebug                Starts the debugger
+
+                                                *godebug-:GoDebugTest*
+:GoDebugTest            Starts the debugger for the test
+
+
+ vim:tw=78:et:ft=help:norl:
