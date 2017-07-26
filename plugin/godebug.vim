@@ -2,7 +2,7 @@
 " Maintainer:    Luca Guidi <https://lucaguidi.com>
 " Version:       0.1
 
-if !has("nvim")
+if !has("nvim") && exists('term_start')
   echom "vim-godebug: vim is not yet supported, try it with neovim"
   finish
 endif
@@ -20,11 +20,13 @@ endif
 " make cache base path overridable
 if !exists("g:godebug_cache_path")
   " this will probably suck for people using windows ...
-  let g:godebug_cache_path = $HOME . "/.cache/" . v:progname . "/vim-godebug"
+  let g:godebug_cache_path = fnamemodify($HOME . "/.cache/" . v:progname . "/vim-godebug", ':p:gs!\\!/!')
 endif
 
 " make sure cache base path exists
-call mkdir(g:godebug_cache_path, "p")
+if !isdirectory(g:godebug_cache_path)
+  call mkdir(g:godebug_cache_path, "p")
+endif
 
 " create a reasonably unique breakpoints file path per vim instance
 let g:godebug_breakpoints_file = g:godebug_cache_path . "/". getpid() . localtime()
@@ -38,7 +40,11 @@ function! godebug#toggleBreakpoint(file, line, ...) abort
   let breakpoint = "break " . a:file. ':' . a:line
 
   " Define the sign for the gutter
-  exe "sign define gobreakpoint text=◉ texthl=Search"
+  if has('win32') && !has('gui_running')
+    sign define gobreakpoint text=> texthl=Search
+  else
+    sign define gobreakpoint text=◉ texthl=Search
+  endif
 
   " If the line isn't already in the list, add it.
   " Otherwise remove it from the list.
