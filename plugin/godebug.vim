@@ -69,7 +69,17 @@ endfunction
 
 function! godebug#debugtest(bang, ...) abort
   call godebug#writeBreakpointsFile()
-  return go#term#new(a:bang, ["dlv", "test", "--init=" . g:godebug_breakpoints_file])
+
+  let command = ["dlv", "test", "--init=" . g:godebug_breakpoints_file]
+
+  " if the user provides an argument use it as the test selection regex
+  if a:0 > 1
+    let test_regex = a:2
+    let go_test_args = ["--", "-test.run", test_regex]
+    let command += go_test_args
+  endif
+
+  return go#term#new(a:bang, command)
 endfunction
 
 command! -nargs=* -bang GoToggleBreakpoint call godebug#toggleBreakpoint(expand('%:p'), line('.'), <f-args>)
