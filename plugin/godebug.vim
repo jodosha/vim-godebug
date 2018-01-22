@@ -2,6 +2,11 @@
 " Maintainer:    Luca Guidi <https://lucaguidi.com>
 " Version:       0.1
 
+if !has("nvim")
+  echom "vim-godebug: vim is not yet supported, try it with neovim"
+  finish
+endif
+
 if exists("g:godebug_loaded_install")
   finish
 endif
