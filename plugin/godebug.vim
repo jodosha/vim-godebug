@@ -29,6 +29,12 @@ call mkdir(g:godebug_cache_path, "p")
 " create a reasonably unique breakpoints file path per vim instance
 let g:godebug_breakpoints_file = g:godebug_cache_path . "/". getpid() . localtime()
 
+" allow customizing the gutter sign
+if !exists("g:godebug_breakpoints_sign")
+  let g:godebug_breakpoints_sign="◉"
+endif
+highlight default link GoDebugBreakpointsSign Search
+
 autocmd VimLeave * call godebug#deleteBreakpointsFile()<cr>
 
 " Private functions {{{1
@@ -38,7 +44,7 @@ function! godebug#toggleBreakpoint(file, line, ...) abort
   let breakpoint = "break " . a:file. ':' . a:line
 
   " Define the sign for the gutter
-  exe "sign define gobreakpoint text=◉ texthl=Search"
+  exe "sign define gobreakpoint text=" . g:godebug_breakpoints_sign . " texthl=GoDebugBreakpointsSign"
 
   " If the line isn't already in the list, add it.
   " Otherwise remove it from the list.
