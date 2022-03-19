@@ -1,4 +1,4 @@
-# vim-godebug
+# vim-GoDebug
 
 Go debugging for Vim.
 
@@ -8,15 +8,26 @@ Go debugging for Vim.
 
 ## Prerequisites
 
-  * Go
-  * [Neovim](https://neovim.io/)
-  * [vim-go](https://github.com/fatih/vim-go)
-  * [Delve](https://github.com/derekparker/delve)
-   * On macOS, it is advised to install through [brew](https://github.com/derekparker/delve/blob/master/Documentation/installation/osx/install.md#via-homebrew), due to problems with certificates.
+    * Go
+    * [Neovim](https://neovim.io/)
+    * [vim-go](https://github.com/fatih/vim-go)
+    * [Delve](https://github.com/derekparker/delve)
+    * On macOS, it is advised to install through [brew](https://github.com/derekparker/delve/blob/master/Documentation/installation/osx/install.md#via-homebrew), due to problems with certificates.
 
 ## Installation
 
-Copy all files to your ~/.vim directory or use Tim Pope's excellent pathogen plugin (http://github.com/tpope/vim-pathogen).
+Godebug follows the standard runtime path structure. There are some helper lines for your _vim/nvim_ for popular plugin managers.
+
+* [Vim 8 packages](http://vimhelp.appspot.com/repeat.txt.html#packages)
+  * `git clone https://github.com/jodosha/vim-godebug.git ~/.vim/pack/plugins/start/vim-go`
+* [Neovim packages](https://neovim.io/doc/user/repeat.html#packages)
+* `git clone https://github.com/jodosha/vim-godebug.git ~/.local/share/nvim/site/pack/plugins/start/vim-go`
+* [Pathogen](https://github.com/tpope/vim-pathogen)
+  * `git clone https://github.com/jodosha/vim-godebug.git ~/.vim/bundle/vim-go`
+* [vim-plug](https://github.com/junegunn/vim-plug)
+    *  `Plug 'jodosha/vim-godebug'`
+* [Vundle](https://github.com/VundleVim/Vundle.vim)
+  * `Plugin 'jodosha/vim-godebug'`
 
 ## Usage
 
@@ -33,7 +44,6 @@ I won't actively support this plugin. If you find a bug, or want an improvement,
 ## Troubleshooting
 
 ### Error detected while processing function godebug#debug
-
 **vim** is not yet supported. Try it with **neovim**.
 
 ## Copyright
